@@ -1,0 +1,25 @@
+-- insert data into airports table
+ insert into Airports (AirportID, Name, City , Country, Code, CreatedAt, UpdatedAt)
+ values (1, 'Kalbarri Airport', 'Paris', 'France', 'KAX', '2023-08-03', '2023-08-21');
+
+-- insert data into airplines table
+insert into Airlines (AirlineID, Name, Code , Country, CreatedAt, UpdatedAt) values (1, 'Air peace', 'APK', 'Nigeria', '2013-10-26', '2024-11-01');
+
+-- insert data into airplanes table
+insert into Airplanes (AirplaneID, AirlineID, Model , Capacity, LastMaintenance, CreatedAt, UpdatedAt)
+ values (1, 1, 'Boeing 737-300s', '148-150', '2025-01-26','2024-01-01', '2025-01-01');
+
+-- insert data into flights table
+INSERT INTO Flights (AirplaneID, DepartureAirportID, ArrivalAirportID, ScheduledDeparture, ScheduledArrival, ExtraInfo)
+VALUES (
+  1, 10, 206, '2025-04-18 ', '2025-04-19',
+  JSON_OBJECT('Gate', 'A12', 'Crew', JSON_ARRAY('Captain Smith', 'First Officer Lee'))
+);
+
+insert into Passengers (PassengerID, FirstName,LastName , Email ,Phone, CreatedAt, UpdatedAt)
+ values (2, 'Joshua', 'oku', 'okunjosh@gmail.com', 09136353922, '2024-01-01','2025-01-26') ;
+
+-- insert data into bookings table
+insert into Bookings (BookingID, FlightID, PassengerID , BookingDate,SeatNumber, CreatedAt, UpdatedAt)
+ values (1, 1, 1, '2025-04-19', 167, '2025-01-01','2025-04-19');
+ 
