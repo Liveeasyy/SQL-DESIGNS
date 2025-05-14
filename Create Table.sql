@@ -9,3 +9,72 @@ CREATE TABLE Airports (
     UpdatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP 
 );
 
+--Create Airlines Table
+CREATE TABLE Airlines (
+    AirlineID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(100) NOT NULL,
+    Code VARCHAR(10) UNIQUE NOT NULL,
+    Country VARCHAR(100),
+    CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UpdatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+--Create Airplanes Tables
+CREATE TABLE Airplanes (
+    AirplaneID INT AUTO_INCREMENT PRIMARY KEY,
+    AirlineID INT NOT NULL,
+    Model VARCHAR(50) NOT NULL,
+    Capacity INT,
+    LastMaintenance DATE,
+    CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UpdatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (AirlineID) REFERENCES Airlines(AirlineID)
+);
+
+--Create Flights Table
+-- Includes a JSON column (ExtraInfo) for storing additional flight details.
+CREATE TABLE Flights (
+    FlightID INT AUTO_INCREMENT PRIMARY KEY,
+    AirplaneID INT NOT NULL,
+    DepartureAirportID INT NOT NULL,
+    ArrivalAirportID INT NOT NULL,
+    ScheduledDeparture DATETIME NOT NULL,
+    ScheduledArrival DATETIME NOT NULL,
+    Status ENUM('On Time', 'Delayed', 'Cancelled') DEFAULT 'On Time',
+    ExtraInfo JSON,
+    CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UpdatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (AirplaneID) REFERENCES Airplanes(AirplaneID),
+    FOREIGN KEY (DepartureAirportID) REFERENCES Airports(AirportID),
+    FOREIGN KEY (ArrivalAirportID) REFERENCES Airports(AirportID)
+);
+
+--Create Passengers Table
+CREATE TABLE Passengers (
+    PassengerID INT AUTO_INCREMENT PRIMARY KEY,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    Email VARCHAR(100),
+    Phone VARCHAR(20),
+    CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UpdatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+--Create Bookings Table
+CREATE TABLE Bookings (
+    BookingID INT AUTO_INCREMENT PRIMARY KEY,
+    FlightID INT NOT NULL,
+    PassengerID INT NOT NULL,
+    BookingDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+    SeatNumber VARCHAR(5),
+    CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UpdatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (FlightID) REFERENCES Flights(FlightID),
+    FOREIGN KEY (PassengerID) REFERENCES Passengers(PassengerID)
+);
+
+
+
+
+
+
