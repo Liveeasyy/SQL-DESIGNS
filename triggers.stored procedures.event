@@ -1,0 +1,75 @@
+-- Stored Procedure for Booking a Flight
+DELIMITER //
+CREATE PROCEDURE BookFlight(
+    IN p_FlightID INT,
+    IN p_PassengerID INT,
+    IN p_SeatNumber VARCHAR(5)
+)
+BEGIN
+    INSERT INTO Bookings (FlightID, PassengerID, SeatNumber)
+    VALUES (p_FlightID, p_PassengerID, p_SeatNumber);
+END //
+DELIMITER ;
+
+-- User-Defined Function to Get a Passenger's Full Name
+DELIMITER //
+CREATE FUNCTION GetFullName(p_PassengerID INT) RETURNS VARCHAR(101)
+DETERMINISTIC
+BEGIN
+    DECLARE fullName VARCHAR(101);
+    SELECT CONCAT(FirstName, ' ', LastName) INTO fullName 
+    FROM Passengers
+    WHERE PassengerID = p_PassengerID;
+    RETURN fullName;
+END //
+DELIMITER ;
+
+-- Trigger to update the UpdatedAt field when a flight's status changes.
+DELIMITER //
+CREATE TRIGGER flight_status_update
+BEFORE UPDATE ON Flights
+FOR EACH ROW
+BEGIN
+    IF NEW.Status != OLD.Status THEN
+        SET NEW.UpdatedAt = NOW();
+    END IF;
+END //
+DELIMITER ;
+-- tessting the trigger
+ UPDATE Flights
+SET Status = 'Delayed'
+WHERE FlightID = 1;
+
+-- Event Scheduler: Daily check to cancel past flights that were still marked "On Time".
+DELIMITER //
+CREATE EVENT IF NOT EXISTS ev_cancel_old_flights
+ON SCHEDULE EVERY 1 DAY
+DO
+BEGIN
+    UPDATE Flights
+    SET Status = 'Cancelled'
+    WHERE ScheduledDeparture < NOW() AND Status = 'On Time';
+END //
+DELIMITER ;
+
+-- A view that combines several entities and leverages the user-defined function.
+CREATE VIEW FlightOverview AS
+SELECT f.FlightID,
+       a1.Name AS DepartureAirport,
+       a2.Name AS ArrivalAirport,
+       f.ScheduledDeparture,
+       f.ScheduledArrival,
+       f.Status,
+       GetFullName(b.PassengerID) AS PassengerFullName
+FROM Flights f
+JOIN Airports a1 ON f.DepartureAirportID = a1.AirportID
+JOIN Airports a2 ON f.ArrivalAirportID = a2.AirportID
+JOIN Bookings b ON f.FlightID = b.FlightID;
+
+
+
+
+
+
+
+
