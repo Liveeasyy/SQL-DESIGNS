@@ -25,8 +25,24 @@ This database includes the following tables:
 - The `Flights` table is linked to the `Airplanes` and `Airports` table via a foreign key (`AirplanesID`), (`AirportsID`) accordingly.
 - The `Bookings` table is connected to the `Flights` table through a foreign key (`FlightID`).
 
-## Installation Instructions
-To get started with this project:
+## Installation
+1. Clone the repository
+2. Import the SQL files into your MySQL server
+3. Run the scripts in the following order:
+   - `Create Schema.sql`
+   - `Create Table.sql`
+   - `Insert Data.sql`
+
+
+
+## Usage
+Execute the provided SQL scripts to set up the database and explore the functionalities.
+
+## Contributing
+Contributions are welcome! Please fork the repository and submit a pull request.
+
+## License
+This project is licensed under the MIT License.
 
 1. Clone the repository:
    ```bash
