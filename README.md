@@ -23,8 +23,7 @@ This database includes the following tables:
 
 -  ## Entity-Relationship Diagram
 You can view or edit the ERD using [MySQL Workbench](https://www.mysql.com/products/workbench/).  
-File: `erd/sql-database-design.mwb` airbort Model.mwb
-
+File: `erd/SQL-DESIGNS/airbort Model.mwb` 
 
 ### Example of Relationships:
 - The `Flights` table is linked to the `Airplanes` and `Airports` table via a foreign key (`AirplanesID`), (`AirportsID`) accordingly.
