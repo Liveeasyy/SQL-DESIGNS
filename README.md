@@ -21,6 +21,11 @@ This database includes the following tables:
 - `Flights` – Stores flight to be detail (this is tricky)
 - `Passengers`- Keeps the detail of the passenger
 
+-  ## Entity-Relationship Diagram
+You can view or edit the ERD using [MySQL Workbench](https://www.mysql.com/products/workbench/).  
+File: `erd/sql-database-design.mwb` airbort Model.mwb
+
+
 ### Example of Relationships:
 - The `Flights` table is linked to the `Airplanes` and `Airports` table via a foreign key (`AirplanesID`), (`AirportsID`) accordingly.
 - The `Bookings` table is connected to the `Flights` table through a foreign key (`FlightID`).
